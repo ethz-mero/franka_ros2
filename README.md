@@ -130,30 +130,35 @@ For detailed instructions on preparing VS Code to use `.devcontainer`, follow th
       this file.
 
   3. **Build the container:**
+     Official documentation suggests
       ```bash
       docker compose build
       ```
-  4. **Run the container:**
+      But this does not allow for setting network.hos. Instead, run directly with bake
+      ```
+      sudo docker buildx bake -f docker-compose.yml --allow=network.host
+      ```
+  5. **Run the container:**
       ```bash
       docker compose up -d
       ```
-  5. **Open a shell inside the container:**
+  6. **Open a shell inside the container:**
       ```bash
       docker compose exec franka_ros2_jazzy bash
       ```
-  6. **Import the workspace dependencies:**
+  7. **Import the workspace dependencies:**
       ```bash
       vcs import src < src/dependency.repos --recursive --skip-existing
       ```
-  7. **Build the workspace:**
+  8. **Build the workspace:**
       ```bash
       colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
       ```
-  8. **Source the built workspace:**
+  9. **Source the built workspace:**
       ```bash
       source install/setup.bash
       ```
-  9. **When you are done, stop and remove the container:**
+  10. **When you are done, stop and remove the container:**
       ```bash
       docker compose down -t 0
       ```
