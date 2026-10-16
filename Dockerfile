@@ -32,7 +32,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup user configuration
-RUN groupadd --gid $USER_GID $USERNAME \
+RUN (userdel -r ubuntu 2>/dev/null || true) \
+    && groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME --groups dialout \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /home/$USERNAME/.bashrc \
